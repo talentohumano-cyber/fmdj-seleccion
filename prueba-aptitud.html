@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Evaluación de aptitud · Asistente de Dirección Ejecutiva · FMDJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --azul:#003151;
+  --azul-claro:#1B5478;
+  --vino:#8E1537;
+  --dorado:#FFBB33;
+  --papel:#F2F4F5;
+  --tinta:#16232B;
+  --gris:#5C6B75;
+  --linea:#D3DBE0;
+  --blanco:#FFFFFF;
+  --ok:#1E6B4F;
+  --serif:Georgia,"Times New Roman",serif;
+  --sans:"Lato",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);
+  background:var(--papel);
+  color:var(--tinta);
+  font-size:17px;
+  line-height:1.6;
+  padding-bottom:6rem;
+}
+.barra{position:fixed;top:0;left:0;right:0;height:4px;background:var(--linea);z-index:60}
+.barra i{display:block;height:100%;width:0;background:var(--dorado);transition:width .35s ease}
+.envoltura{max-width:46rem;margin:0 auto;padding:0 1.25rem}
+
+/* ---------- Encabezado ---------- */
+header.marca{padding:3.5rem 0 1.75rem;border-bottom:1px solid var(--linea)}
+.escudo{display:flex;align-items:baseline;gap:.75rem;flex-wrap:wrap}
+.escudo b{font-family:var(--serif);font-size:1.05rem;color:var(--azul);letter-spacing:.01em;font-weight:normal}
+.escudo span{font-size:.82rem;color:var(--gris)}
+h1{font-family:var(--serif);font-weight:normal;font-size:2.1rem;line-height:1.2;color:var(--azul);margin:1.5rem 0 .6rem}
+.lema{font-family:var(--serif);font-style:italic;color:var(--vino);font-size:1.05rem}
+.entradilla{color:var(--gris);max-width:34rem;margin-top:.9rem}
+
+/* ---------- Bloques ---------- */
+section.pantalla{display:none;padding-top:2.25rem}
+section.pantalla.activa{display:block}
+.panel{background:var(--blanco);border:1px solid var(--linea);padding:1.75rem;margin:1.75rem 0}
+.panel h2{font-family:var(--serif);font-weight:normal;font-size:1.3rem;color:var(--azul);margin-bottom:.75rem}
+.panel h3{font-size:.95rem;font-weight:700;color:var(--azul);margin:1.4rem 0 .5rem}
+.panel p+p{margin-top:.75rem}
+.aviso{border-left:4px solid var(--vino);background:var(--blanco);padding:1.1rem 1.25rem;margin:1.5rem 0;font-size:.94rem}
+.aviso strong{color:var(--vino)}
+.aviso.suave{border-left-color:var(--dorado)}
+.aviso.suave strong{color:var(--azul)}
+ul.lista{margin:.6rem 0 0 1.1rem}
+ul.lista li{margin-bottom:.4rem}
+
+/* ---------- Formularios ---------- */
+label.campo{display:block;margin-bottom:1.05rem}
+label.campo span{display:block;font-size:.85rem;font-weight:700;color:var(--azul);margin-bottom:.3rem}
+label.campo em{display:block;font-style:normal;font-size:.8rem;color:var(--gris);margin-bottom:.35rem}
+input[type=text],input[type=email],input[type=password],select{
+  width:100%;padding:.7rem .8rem;font-family:var(--sans);font-size:1rem;
+  border:1px solid var(--linea);background:var(--papel);color:var(--tinta);border-radius:2px;
+}
+input:focus,select:focus,button:focus-visible,.opcion:focus-within{
+  outline:3px solid var(--dorado);outline-offset:1px
+}
+button{
+  font-family:var(--sans);font-size:1rem;font-weight:700;cursor:pointer;
+  padding:.8rem 1.6rem;border:0;border-radius:2px;background:var(--azul);color:#fff;
+}
+button:hover{background:var(--azul-claro)}
+button[disabled]{background:var(--gris);cursor:not-allowed;opacity:.6}
+button.secundario{background:transparent;color:var(--azul);border:1px solid var(--azul)}
+button.secundario:hover{background:var(--blanco)}
+.acciones{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin-top:1.5rem}
+.mensaje{font-size:.9rem;margin-top:.9rem;min-height:1.2rem}
+.mensaje.error{color:var(--vino);font-weight:700}
+.mensaje.ok{color:var(--ok);font-weight:700}
+
+/* ---------- Cronómetro ---------- */
+.cinta{
+  position:sticky;top:4px;z-index:50;background:var(--azul);color:#fff;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:.6rem 1rem;font-size:.85rem;margin-top:1.5rem;flex-wrap:wrap;
+}
+.cinta b{font-weight:700}
+.reloj{font-variant-numeric:tabular-nums;font-size:1rem;font-weight:700}
+.reloj.alerta{color:var(--dorado)}
+
+/* ---------- Preguntas ---------- */
+.seccion-titulo{margin:2.5rem 0 .5rem;padding-top:1.5rem;border-top:2px solid var(--azul)}
+.seccion-titulo h2{font-family:var(--serif);font-weight:normal;font-size:1.45rem;color:var(--azul)}
+.seccion-titulo p{font-size:.9rem;color:var(--gris);margin-top:.25rem}
+article.item{
+  display:grid;grid-template-columns:3.2rem 1fr;gap:.5rem;
+  background:var(--blanco);border:1px solid var(--linea);border-left:3px solid var(--azul);
+  padding:1.4rem 1.4rem 1.1rem;margin:1.1rem 0;
+}
+article.item.pendiente{border-left-color:var(--vino)}
+.numero{font-family:var(--serif);font-size:1.5rem;color:var(--vino);line-height:1.1}
+.enunciado{font-size:1rem}
+.enunciado .contexto{display:block;background:var(--papel);border:1px dashed var(--linea);padding:.8rem .9rem;margin:.7rem 0;font-size:.94rem;white-space:pre-line}
+.opciones{margin-top:.9rem;display:grid;gap:.4rem}
+.opcion{display:flex;gap:.65rem;align-items:flex-start;padding:.6rem .7rem;border:1px solid var(--linea);cursor:pointer;background:var(--blanco)}
+.opcion:hover{background:var(--papel)}
+.opcion input{margin-top:.35rem;accent-color:var(--azul);flex-shrink:0}
+.opcion.marcada{border-color:var(--azul);background:#EAF1F5}
+.opcion span{font-size:.96rem}
+
+/* ---------- Cierre ---------- */
+.cierre{text-align:left;padding:3rem 0}
+.cierre .sello{font-family:var(--serif);font-size:3.2rem;color:var(--dorado);line-height:1}
+.cierre h2{font-family:var(--serif);font-weight:normal;font-size:1.9rem;color:var(--azul);margin:.6rem 0 .8rem}
+.folio{font-family:var(--serif);font-size:1.15rem;color:var(--vino);letter-spacing:.06em;margin-top:1rem}
+
+.pie{margin-top:3rem;padding-top:1.25rem;border-top:1px solid var(--linea);font-size:.78rem;color:var(--gris)}
+.oculto{display:none!important}
+@media (max-width:600px){
+  body{font-size:16px}
+  h1{font-size:1.65rem}
+  article.item{grid-template-columns:2.2rem 1fr;padding:1.1rem}
+  .numero{font-size:1.2rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="barra"><i id="progreso"></i></div>
+
+<div class="envoltura">
+
+<header class="marca">
+  <div class="escudo">
+    <b>Fundación Mariana de Jesús</b>
+    <span>Dirección de Desarrollo Organizacional y Talento Humano</span>
+  </div>
+  <h1>Evaluación de aptitud para el cargo<br>de Asistente de Dirección Ejecutiva</h1>
+  <p class="lema">En todo amar y servir</p>
+</header>
+
+<!-- ============ 1. ACCESO ============ -->
+<section class="pantalla activa" id="p-acceso">
+  <p class="entradilla">Esta evaluación mide destrezas directamente relacionadas con el cargo: organización, redacción, cálculo administrativo, atención al detalle, manejo de información reservada y orientación al servicio.</p>
+
+  <div class="panel">
+    <h2>Ingrese con las credenciales que recibió</h2>
+    <label class="campo">
+      <span>Usuario</span>
+      <em>Su número de cédula, sin guiones ni espacios.</em>
+      <input type="text" id="in-usuario" inputmode="numeric" autocomplete="username" maxlength="13">
+    </label>
+    <label class="campo">
+      <span>Clave de acceso</span>
+      <em>Código de seis caracteres enviado a su correo.</em>
+      <input type="password" id="in-clave" autocomplete="one-time-code" maxlength="12">
+    </label>
+    <div class="acciones">
+      <button id="btn-entrar">Entrar</button>
+    </div>
+    <p class="mensaje" id="msg-acceso"></p>
+  </div>
+
+  <div class="aviso">
+    <strong>Tratamiento de datos personales.</strong> Sus respuestas serán tratadas por la Fundación Mariana de Jesús con la única finalidad de evaluar su candidatura, conforme a la Ley Orgánica de Protección de Datos Personales. Se conservarán por seis meses y luego se eliminarán. Puede solicitar acceso, rectificación o eliminación escribiendo a talentohumano@fmdj.org.ec. Al ingresar, usted declara conocer y aceptar este tratamiento.
+  </div>
+</section>
+
+<!-- ============ 2. INSTRUCCIONES ============ -->
+<section class="pantalla" id="p-instrucciones">
+  <div class="panel">
+    <h2>Antes de comenzar</h2>
+    <p>Bienvenida, <b id="saludo-nombre">candidata</b>. Lea estas indicaciones con calma; el cronómetro empieza cuando presione el botón del final.</p>
+
+    <h3>Cómo funciona</h3>
+    <ul class="lista">
+      <li>La prueba tiene <b>36 preguntas</b> repartidas en seis secciones.</li>
+      <li>Dispone de <b>45 minutos</b>. Al agotarse el tiempo la prueba se envía automáticamente con lo que haya respondido.</li>
+      <li>Todas las preguntas son de opción única. Puede cambiar su respuesta mientras no haya enviado.</li>
+      <li>Si se corta la conexión, sus respuestas quedan guardadas en el navegador: vuelva a entrar con las mismas credenciales y continúe.</li>
+      <li>Solo puede rendir la prueba <b>una vez</b>.</li>
+    </ul>
+
+    <h3>Qué se evalúa</h3>
+    <ul class="lista">
+      <li>Organización y priorización de tareas</li>
+      <li>Comunicación escrita y corrección del lenguaje</li>
+      <li>Razonamiento numérico aplicado a la gestión administrativa</li>
+      <li>Atención al detalle</li>
+      <li>Discreción y manejo de información confidencial</li>
+      <li>Orientación al servicio y relaciones interpersonales</li>
+    </ul>
+
+    <h3>Condiciones</h3>
+    <ul class="lista">
+      <li>Resuelva sola, sin ayuda de otras personas.</li>
+      <li>Puede usar calculadora y papel en la sección de cálculo.</li>
+      <li>Busque un lugar tranquilo y verifique su conexión antes de empezar.</li>
+    </ul>
+
+    <div class="acciones">
+      <button id="btn-comenzar">Comenzar la prueba</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. PRUEBA ============ -->
+<section class="pantalla" id="p-prueba">
+  <div class="cinta">
+    <span>Respondidas <b><span id="contador">0</span> de 36</b></span>
+    <span class="reloj" id="reloj">45:00</span>
+  </div>
+  <div id="contenedor"></div>
+
+  <div class="panel" id="panel-envio">
+    <h2>Enviar la prueba</h2>
+    <p id="resumen-envio">Revise que no queden preguntas sin responder. Una vez enviada no podrá modificarla.</p>
+    <div class="acciones">
+      <button id="btn-enviar">Enviar mis respuestas</button>
+      <button class="secundario" id="btn-revisar">Ir a la primera sin responder</button>
+    </div>
+    <p class="mensaje" id="msg-envio"></p>
+  </div>
+</section>
+
+<!-- ============ 4. CIERRE ============ -->
+<section class="pantalla" id="p-cierre">
+  <div class="cierre">
+    <div class="sello">&#10003;</div>
+    <h2>Prueba recibida</h2>
+    <p>Gracias por el tiempo dedicado, <b id="cierre-nombre"></b>. Sus respuestas quedaron registradas.</p>
+    <p>La Dirección de Desarrollo Organizacional y Talento Humano se comunicará con usted sobre las siguientes fases del proceso.</p>
+    <p class="folio" id="folio"></p>
+    <p style="margin-top:1.5rem;color:var(--gris);font-size:.9rem">Puede cerrar esta ventana.</p>
+  </div>
+</section>
+
+<p class="pie">
+  Fundación Mariana de Jesús &middot; Quito, Ecuador &middot; Instrumento de uso interno para procesos de selección.
+  Documento controlado por la DDOTH. Prohibida su reproducción o difusión fuera del proceso.
+</p>
+
+</div>
+
+<script>
+/* =====================================================================
+   CONFIGURACIÓN — reemplace por la URL de su implementación de Apps Script
+   ===================================================================== */
+const API = "https://script.google.com/macros/s/AKfycbyrByg7aP6cWaW9JBc46QzPP3C6AwTFvVfZMvlIvw4mW2xeR0JUv4wtbJIf6PEwHqfdrA/exec";
+const PRUEBA = "aptitud";
+const MINUTOS = 45;
+
+/* =====================================================================
+   BANCO DE ÍTEMS
+   tipo "sjt": puntuación graduada 0-3 declarada en cada opción
+   tipo "obj": una sola opción correcta (1 punto)
+   ===================================================================== */
+const SECCIONES = [
+{
+  id:"S1", peso:20,
+  titulo:"Sección I. Organización y priorización",
+  bajada:"Situaciones reales del cargo. No hay respuestas obvias: elija la que usted efectivamente haría.",
+  items:[
+  {t:"sjt",e:"Son las 08:00. El Director Ejecutivo está en reunión hasta las 10:00. Tiene pendientes: el acta del Consejo Directivo que se revisa hoy a las 11:00; una llamada de un donante que insiste en hablar con el Director; el escaneo de un expediente que el Departamento Legal necesita mañana; y confirmar el vuelo del Director para el viernes. ¿Por dónde empieza?",
+   o:[["Terminar el acta: tiene el plazo más cercano y depende únicamente de usted.",3],
+      ["Devolver la llamada al donante, porque hay una persona esperando respuesta.",2],
+      ["Confirmar el vuelo, porque es rápido y despeja la lista.",1],
+      ["Escanear el expediente, para adelantar trabajo del Departamento Legal.",0]]},
+
+  {t:"sjt",e:"El Director le pide reservar sala y convocar a seis personas para mañana a las 09:00. Al revisar, descubre que la sala está ocupada y que dos de las personas convocadas estarán en territorio ese día.",
+   o:[["Convoca de todos modos y luego avisa al Director que faltarán dos personas.",1],
+      ["Busca alternativas de sala, horario y conexión remota, y presenta al Director dos opciones concretas antes de convocar.",3],
+      ["Informa al Director del conflicto y espera su instrucción antes de convocar.",2],
+      ["Mueve la reunión al día siguiente por su cuenta y notifica a los convocados.",0]]},
+
+  {t:"sjt",e:"En la misma mañana recibe tres requerimientos: la Dirección Ejecutiva pide un informe para las 12:00; el Departamento Legal pide organizar un archivo antes del viernes; y recepción avisa que llegó una visita sin cita que pide ser atendida.",
+   o:[["Atiende primero a la visita todo el tiempo que necesite, luego el informe y al final el archivo.",1],
+      ["Recibe brevemente a la visita, registra su requerimiento y ofrece respuesta el mismo día; continúa con el informe y programa el archivo para el jueves.",3],
+      ["Pide a recepción que agende a la visita para otro día y continúa con el informe.",2],
+      ["Empieza por el archivo del Departamento Legal porque es la tarea más larga.",0]]},
+
+  {t:"sjt",e:"El Director sale de viaje una semana y deja instrucciones generales. Durante su ausencia llega un requerimiento del MIES con plazo de 48 horas.",
+   o:[["Espera su regreso, porque él debe decidir sobre un tema de esa importancia.",0],
+      ["Le escribe, informa del plazo, propone quién puede atenderlo en la Fundación y adelanta la información ya disponible.",3],
+      ["Reenvía el correo a todas las direcciones para que alguien lo tome.",1],
+      ["Contacta a la Dirección Administrativa Financiera, informa del plazo y coordina la respuesta, notificando al Director.",2]]},
+
+  {t:"sjt",e:"Usted maneja la agenda del Director. Un miembro del Consejo pide reunirse el jueves a las 15:00, franja ya ocupada por una visita a un proyecto en territorio.",
+   o:[["Acepta la reunión y cancela la visita al proyecto.",1],
+      ["Ofrece las franjas libres del jueves y del viernes, e informa al Director del pedido y de la alternativa.",3],
+      ["Responde que consultará con el Director y confirma al día siguiente.",2],
+      ["Responde que no hay espacio esa semana y cierra el tema.",0]]},
+
+  {t:"sjt",e:"Al final del día quedan tareas sin terminar y usted ya cumplió su jornada.",
+   o:[["Se queda hasta terminar todo, sin avisar a nadie.",1],
+      ["Deja una nota de estado con lo pendiente, su plazo y lo que hará mañana a primera hora, e informa al Director.",3],
+      ["Se retira y retoma mañana sin más.",0],
+      ["Se queda solo con lo que vence mañana e informa al Director de esa decisión.",2]]}
+  ]
+},
+{
+  id:"S2", peso:20,
+  titulo:"Sección II. Comunicación escrita",
+  bajada:"Corrección del lenguaje y criterio de redacción institucional.",
+  items:[
+  {t:"obj",e:"¿Cuál de estas oraciones está correctamente escrita?",
+   o:[["Se convoca a la reunión, que se realizará el día miercoles 12 de marzo.",0],
+      ["Se convoca a la reunión que se realizará el día miércoles 12 de marzo.",1],
+      ["Se convoca, a la reunión que se realizará el dia miércoles 12 de marzo.",0],
+      ["Se convoca a la reunión; que se realizará el día miércoles 12 de marzo.",0]]},
+
+  {t:"obj",e:"Un correo dice: «Adjunto envío el informe que me fue solicitado, el mismo que fue revisado por la Dirección». ¿Cuál es la mejor reescritura?",
+   o:[["Por medio de la presente me permito hacerle llegar el informe que oportunamente me fuera solicitado.",0],
+      ["Adjunto el informe solicitado, revisado por la Dirección.",1],
+      ["Le mando el informe que pidió, ya lo revisó la Dirección.",0],
+      ["Adjunto envío el informe solicitado, mismo que fue revisado por la Dirección.",0]]},
+
+  {t:"obj",e:"Según la norma de la Real Academia Española, ¿cómo se escribe correctamente el cargo dentro de una oración?",
+   o:[["El Director Ejecutivo firmó el convenio.",0],
+      ["El director ejecutivo firmó el convenio.",1],
+      ["El Director ejecutivo firmó el convenio.",0],
+      ["El DIRECTOR EJECUTIVO firmó el convenio.",0]]},
+
+  {t:"obj",e:"¿Cuál oración no contiene error?",
+   o:[["Pienso de que la reunión debe posponerse.",0],
+      ["Me alegro que hayas podido asistir.",0],
+      ["Pienso que la reunión debe posponerse.",1],
+      ["Estoy segura que el informe llegó a tiempo.",0]]},
+
+  {t:"obj",e:"¿Cuál es la forma correcta de encabezar un oficio dirigido a la Directora de una entidad pública?",
+   o:[["Estimada señora Directora,",0],
+      ["Estimada señora Directora:",1],
+      ["Estimada Señora Directora.",0],
+      ["Estimada señora Directora;",0]]},
+
+  {t:"obj",e:"Debe convocar por correo a una reunión de seguimiento del proyecto CREAR, el martes 14 a las 10:00. ¿Cuál asunto es más útil para quien lo recibe?",
+   o:[["Reunión",0],
+      ["Importante — favor leer",0],
+      ["Convocatoria: seguimiento Proyecto CREAR — martes 14, 10:00",1],
+      ["Convocatoria de reunión enviada por la Dirección Ejecutiva de la Fundación Mariana de Jesús",0]]},
+
+  {t:"obj",e:"¿En qué opción todas las palabras están correctamente escritas?",
+   o:[["convocatoria, coordinación, correspondencia, confidencialidad",1],
+      ["convocatoria, coordinacion, correspondencia, confidencialidad",0],
+      ["combocatoria, coordinación, correspondencia, confidencialidad",0],
+      ["convocatoria, coordinación, corespondencia, confidencialidad",0]]},
+
+  {t:"obj",e:"Una persona escribe un correo molesta porque no recibió respuesta a una solicitud enviada hace dos semanas. Usted verifica que la solicitud sí se traspapeló. ¿Cuál respuesta es más adecuada?",
+   o:[["Le informo que su solicitud no fue recibida en esta dependencia; le sugiero volver a enviarla.",0],
+      ["Revisé su caso: la solicitud se traspapeló en nuestro registro. Le pido disculpas. Ya está asignada y le confirmo respuesta el jueves 16 a más tardar.",1],
+      ["Lamentamos mucho lo sucedido, entendemos su molestia y valoramos enormemente su paciencia en este proceso.",0],
+      ["Su solicitud está en trámite. En cuanto tengamos novedades le informaremos.",0]]}
+  ]
+},
+{
+  id:"S3", peso:15,
+  titulo:"Sección III. Razonamiento numérico administrativo",
+  bajada:"Puede usar calculadora y papel.",
+  items:[
+  {t:"obj",e:"La caja chica tiene USD 300,00. Se registran gastos por 42,50 / 18,75 / 96,00 y 31,20. ¿Cuál es el saldo?",
+   o:[["USD 111,55",1],["USD 118,45",0],["USD 121,55",0],["USD 188,45",0]]},
+
+  {t:"obj",e:"Un proveedor cotiza un servicio en USD 1.250,00 más IVA del 15%. ¿Cuál es el valor total a pagar?",
+   o:[["USD 1.400,00",0],["USD 1.437,50",1],["USD 1.387,50",0],["USD 1.462,50",0]]},
+
+  {t:"obj",e:"Debe liquidar viáticos de una comisión: 3 días de alimentación a USD 45,00 diarios; 2 noches de hospedaje a USD 60,00; y transporte por USD 38,40. ¿Cuál es el total?",
+   o:[["USD 273,40",0],["USD 293,40",1],["USD 298,40",0],["USD 353,40",0]]},
+
+  {t:"obj",e:"De 38 colaboradores, 12 asistieron a una capacitación. ¿Qué porcentaje del personal asistió?",
+   o:[["26,4%",0],["31,6%",1],["36,8%",0],["41,2%",0]]},
+
+  {t:"obj",e:"Una reunión de 90 minutos comienza a las 14:45 y se interrumpe 20 minutos por un receso. ¿A qué hora termina?",
+   o:[["16:15",0],["16:35",1],["16:05",0],["16:45",0]]},
+
+  {t:"obj",e:"Un servicio cuesta USD 480,00 y el proveedor concede 15% de descuento. ¿Cuánto se paga finalmente?",
+   o:[["USD 72,00",0],["USD 408,00",1],["USD 420,00",0],["USD 465,00",0]]}
+  ]
+},
+{
+  id:"S4", peso:15,
+  titulo:"Sección IV. Atención al detalle",
+  bajada:"Lea con cuidado: las diferencias son pequeñas.",
+  items:[
+  {t:"obj",e:"¿Cuál de estos pares de RUC NO es idéntico?",
+   o:[["1791234567001 / 1791234567001",0],
+      ["1760012345001 / 1760012345001",0],
+      ["1792845093001 / 1792845039001",1],
+      ["0993456781001 / 0993456781001",0]]},
+
+  {t:"obj",e:"En la base de datos consta «María Fernanda Andrade Cevallos». ¿Cuál de las siguientes coincide exactamente?",
+   o:[["María Fernanda Andrade Sevallos",0],
+      ["María Fernanda Andrade Cevallos",1],
+      ["María Fernanda Andrade Cevallós",0],
+      ["Maria Fernanda Andrade Cevallos",0]]},
+
+  {t:"obj",c:"ACTA N.º 014-2026\nFecha: 3 de junio de 2026\nHora de inicio: 10:00\nDuración: una hora treinta minutos\nHora de cierre: 11:00\nAsistentes: 7 de 9 convocados",
+   e:"En el extracto de acta anterior hay una inconsistencia. ¿Cuál es?",
+   o:[["El número de acta no corresponde al año.",0],
+      ["La hora de cierre no coincide con la duración registrada.",1],
+      ["El número de asistentes no puede ser mayor a 5.",0],
+      ["La fecha está escrita en un formato incorrecto.",0]]},
+
+  {t:"obj",c:"Rubro                Valor\nSuministros          128,40\nTransporte            56,00\nRefrigerios           94,60\nTOTAL                289,00",
+   e:"En el siguiente cuadro de liquidación, ¿qué error existe?",
+   o:[["El total está mal sumado: debería ser 279,00.",1],
+      ["El total está mal sumado: debería ser 299,00.",0],
+      ["El rubro de transporte está mal ubicado.",0],
+      ["No hay ningún error.",0]]},
+
+  {t:"obj",e:"El correo institucional correcto es talentohumano@fmdj.org.ec. ¿Cuál de los siguientes está escrito correctamente?",
+   o:[["talentohumano@fmdj.org.ec",1],
+      ["talentohumano@fdmj.org.ec",0],
+      ["talento.humano@fmdj.org.ec",0],
+      ["talentohumano@fmdj.orq.ec",0]]},
+
+  {t:"obj",c:"Encabezado:  Quito, 12 de agosto de 2026\nAsunto:      Convocatoria a reunión ordinaria\nCuerpo:      ...se convoca para el 20 de agosto de 2026...\nFirma:       Quito, 12 de septiembre de 2026",
+   e:"En este oficio hay un error que debe corregirse antes de enviarlo. ¿Cuál?",
+   o:[["El asunto es demasiado largo.",0],
+      ["La fecha del bloque de firma no coincide con la del encabezado.",1],
+      ["La convocatoria no puede hacerse con ocho días de anticipación.",0],
+      ["Falta el número de oficio, que es obligatorio.",0]]}
+  ]
+},
+{
+  id:"S5", peso:15,
+  titulo:"Sección V. Discreción y manejo de información confidencial",
+  bajada:"El cargo tiene acceso permanente a información reservada.",
+  items:[
+  {t:"sjt",e:"Un colaborador le pregunta cuánto gana otra persona del equipo, aclarando que «ya lo sabe todo el mundo».",
+   o:[["Le dice que efectivamente esa información ya circula, sin dar cifras.",1],
+      ["Le indica que la información salarial es confidencial y que cualquier consulta se canaliza con Talento Humano.",3],
+      ["Le responde con una cifra aproximada para no quedar mal.",0],
+      ["Le dice que no sabe, aunque sí lo sabe.",2]]},
+
+  {t:"sjt",e:"Encuentra sobre la impresora un documento con datos de una investigación interna en curso.",
+   o:[["Lo lee para saber si le concierne y luego lo deja donde estaba.",0],
+      ["Lo retira, lo entrega en sobre cerrado a la persona responsable y no comenta su contenido.",3],
+      ["Lo lleva a su escritorio y espera a que alguien lo reclame.",1],
+      ["Lo entrega a su jefatura inmediata comentando lo que alcanzó a leer.",2]]},
+
+  {t:"sjt",e:"El Director le dicta un correo con información sensible y usted lo envía por error a un destinatario equivocado.",
+   o:[["Elimina el correo de su bandeja de enviados y no lo menciona.",0],
+      ["Informa de inmediato al Director, deja constancia escrita y solicita al destinatario que lo elimine sin difundirlo.",3],
+      ["Escribe al destinatario pidiendo que lo borre y no informa al Director para no preocuparlo.",1],
+      ["Espera a ver si el destinatario responde antes de informar al Director.",2]]},
+
+  {t:"sjt",e:"Un familiar suyo postula a una vacante de la Fundación y le pide información sobre cómo va el proceso.",
+   o:[["Le cuenta lo general, sin dar nombres de otros postulantes.",1],
+      ["Informa el posible conflicto de interés a su jefatura, se abstiene de intervenir en ese proceso y no comparte información.",3],
+      ["No le dice nada y tampoco informa a nadie en la Fundación.",2],
+      ["Le da algunas recomendaciones sobre qué responder en la entrevista.",0]]},
+
+  {t:"sjt",e:"Una persona externa llama y pide confirmar si determinada colaboradora trabaja en la Fundación, en qué horario y cuál es su número personal.",
+   o:[["Confirma que trabaja allí, pero no entrega el número.",1],
+      ["No confirma ni niega datos personales, toma el mensaje y lo canaliza internamente.",3],
+      ["Entrega la información porque quien llama dice ser de una institución pública.",0],
+      ["Transfiere la llamada directamente a la colaboradora sin más consultas.",2]]}
+  ]
+},
+{
+  id:"S6", peso:15,
+  titulo:"Sección VI. Servicio, proactividad y relaciones interpersonales",
+  bajada:"Última sección.",
+  items:[
+  {t:"sjt",e:"Una persona llega a recepción visiblemente molesta porque lleva treinta minutos esperando una cita que estaba confirmada.",
+   o:[["Le explica que la Fundación tiene mucho trabajo y le pide comprensión.",1],
+      ["La escucha sin interrumpir, reconoce la espera, verifica de inmediato el estado de su cita y le da un tiempo concreto de respuesta.",3],
+      ["Le ofrece disculpas y le pide que espere un momento más mientras averigua.",2],
+      ["Le sugiere reagendar la cita para otro día.",0]]},
+
+  {t:"sjt",e:"Terminó sus tareas del día y le queda tiempo disponible.",
+   o:[["Espera a que le asignen algo nuevo.",0],
+      ["Revisa lo que viene la próxima semana, adelanta lo que puede y ofrece apoyo donde sabe que hay carga.",3],
+      ["Aprovecha para ordenar sus archivos y depurar la agenda.",2],
+      ["Pregunta al Director si necesita algo y, si no, se mantiene disponible.",2]]},
+
+  {t:"sjt",e:"Detecta un error de fondo en un documento que el Director ya firmó y que debe salir hoy.",
+   o:[["Lo envía como está: ya fue firmado y no le corresponde cuestionarlo.",0],
+      ["Corrige el error usted misma y lo envía, para no retrasarlo.",1],
+      ["Informa de inmediato al Director, le muestra el error y la corrección propuesta, y espera su decisión.",3],
+      ["Retiene el documento y espera a que el Director tenga tiempo de revisarlo.",2]]},
+
+  {t:"sjt",e:"Una compañera le pide ayuda con una tarea que no corresponde a sus funciones, justo en un día muy cargado.",
+   o:[["Acepta y deja para después sus propias tareas con plazo.",1],
+      ["Le explica con claridad su carga del día y acuerda un momento concreto en que sí puede apoyarla.",3],
+      ["Le dice que no es su función y continúa con su trabajo.",0],
+      ["La deriva a la persona que sí tiene esa función entre sus responsabilidades.",2]]},
+
+  {t:"sjt",e:"Recibe del Director una instrucción rápida que no terminó de entender.",
+   o:[["Hace lo que cree que le pidió y luego consulta si estuvo bien.",1],
+      ["Repite con sus propias palabras lo que entendió y pide confirmación antes de ejecutar.",3],
+      ["Pregunta a una compañera qué suele significar esa instrucción.",0],
+      ["Le escribe al Director pidiendo que le precise el encargo.",2]]}
+  ]
+}
+];
+
+/* =====================================================================
+   ESTADO
+   ===================================================================== */
+const S = { usuario:"", nombre:"", token:"", respuestas:{}, inicio:0, timer:null, restante:MINUTOS*60, enviado:false, salidas:0 };
+const ITEMS = [];
+SECCIONES.forEach(sec => sec.items.forEach((it,i) => ITEMS.push(Object.assign({sec:sec.id},it))));
+const TOTAL = ITEMS.length;
+const CLAVE_LOCAL = () => "fmdj_"+PRUEBA+"_"+S.usuario;
+
+const $ = id => document.getElementById(id);
+const ir = p => {
+  document.querySelectorAll(".pantalla").forEach(x=>x.classList.remove("activa"));
+  $(p).classList.add("activa");
+  window.scrollTo({top:0,behavior:"instant"});
+};
+
+/* =====================================================================
+   COMUNICACIÓN CON APPS SCRIPT
+   Intenta POST simple (sin preflight). Si el navegador bloquea CORS,
+   reintenta por JSONP, que Apps Script sí admite vía doGet.
+   ===================================================================== */
+function api(accion, datos){
+  const carga = Object.assign({accion, prueba:PRUEBA}, datos||{});
+  return fetch(API, {
+    method:"POST",
+    headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body:JSON.stringify(carga),
+    redirect:"follow"
+  })
+  .then(r => r.json())
+  .catch(() => jsonp(carga));
+}
+
+function jsonp(carga){
+  return new Promise((resolve,reject)=>{
+    const cb = "fmdjcb_"+Date.now()+Math.floor(Math.random()*1000);
+    const t = setTimeout(()=>{limpiar();reject(new Error("timeout"))}, 25000);
+    function limpiar(){ delete window[cb]; const s=$(cb); if(s) s.remove(); clearTimeout(t); }
+    window[cb] = r => { limpiar(); resolve(r); };
+    const s = document.createElement("script");
+    s.id = cb;
+    s.src = API + "?callback=" + cb + "&p=" + encodeURIComponent(JSON.stringify(carga));
+    s.onerror = () => { limpiar(); reject(new Error("red")); };
+    document.body.appendChild(s);
+  });
+}
+
+/* =====================================================================
+   ACCESO
+   ===================================================================== */
+$("btn-entrar").addEventListener("click", entrar);
+$("in-clave").addEventListener("keydown", e => { if(e.key==="Enter") entrar(); });
+
+function entrar(){
+  const u = $("in-usuario").value.trim();
+  const c = $("in-clave").value.trim();
+  const m = $("msg-acceso");
+  if(!u || !c){ m.className="mensaje error"; m.textContent="Complete usuario y clave para continuar."; return; }
+  if(API.indexOf("http")!==0){ m.className="mensaje error"; m.textContent="Esta prueba aún no está conectada al servidor. Avise a Talento Humano."; return; }
+
+  $("btn-entrar").disabled = true;
+  m.className="mensaje"; m.textContent="Verificando credenciales…";
+
+  api("login",{usuario:u, clave:c}).then(r=>{
+    $("btn-entrar").disabled = false;
+    if(!r || !r.ok){
+      m.className="mensaje error";
+      m.textContent = (r && r.error) ? r.error : "No se pudo verificar el acceso. Revise sus datos e intente otra vez.";
+      return;
+    }
+    if(r.completada){
+      m.className="mensaje error";
+      m.textContent="Esta prueba ya fue rendida con estas credenciales. Si cree que es un error, escriba a talentohumano@fmdj.org.ec.";
+      return;
+    }
+    S.usuario=u; S.nombre=r.nombre||u; S.token=r.token||"";
+    $("saludo-nombre").textContent = S.nombre.split(" ")[0];
+    recuperarBorrador();
+    ir("p-instrucciones");
+  }).catch(()=>{
+    $("btn-entrar").disabled = false;
+    m.className="mensaje error";
+    m.textContent="No hay conexión con el servidor. Verifique su internet e intente nuevamente.";
+  });
+}
+
+/* =====================================================================
+   RENDERIZADO
+   ===================================================================== */
+function pintar(){
+  const cont = $("contenedor");
+  let n = 0, html = "";
+  SECCIONES.forEach(sec=>{
+    html += '<div class="seccion-titulo"><h2>'+sec.titulo+'</h2><p>'+sec.bajada+'</p></div>';
+    sec.items.forEach(it=>{
+      n++;
+      html += '<article class="item" id="q'+n+'" data-n="'+n+'">';
+      html += '<div class="numero">'+n+'</div><div class="enunciado">'+it.e;
+      if(it.c) html += '<span class="contexto">'+it.c+'</span>';
+      html += '<div class="opciones">';
+      it.o.forEach((op,j)=>{
+        html += '<label class="opcion" data-q="'+n+'" data-j="'+j+'">'+
+                '<input type="radio" name="q'+n+'" value="'+j+'"><span>'+op[0]+'</span></label>';
+      });
+      html += '</div></div></article>';
+    });
+  });
+  cont.innerHTML = html;
+
+  cont.addEventListener("change", e=>{
+    if(e.target.type!=="radio") return;
+    const n = e.target.name.substring(1), j = parseInt(e.target.value,10);
+    S.respuestas[n] = j;
+    document.querySelectorAll('.opcion[data-q="'+n+'"]').forEach(l=>l.classList.remove("marcada"));
+    document.querySelector('.opcion[data-q="'+n+'"][data-j="'+j+'"]').classList.add("marcada");
+    $("q"+n).classList.remove("pendiente");
+    actualizar();
+    guardarBorrador();
+  });
+}
+
+function actualizar(){
+  const hechas = Object.keys(S.respuestas).length;
+  $("contador").textContent = hechas;
+  $("progreso").style.width = (hechas/TOTAL*100)+"%";
+  const faltan = TOTAL - hechas;
+  $("resumen-envio").textContent = faltan===0
+    ? "Respondió las 36 preguntas. Una vez enviada no podrá modificarla."
+    : "Le faltan "+faltan+" pregunta(s) por responder. Puede enviar de todos modos, pero las no respondidas se califican con cero.";
+}
+
+/* =====================================================================
+   BORRADOR LOCAL
+   ===================================================================== */
+function guardarBorrador(){
+  try{
+    localStorage.setItem(CLAVE_LOCAL(), JSON.stringify({r:S.respuestas, restante:S.restante, inicio:S.inicio}));
+  }catch(e){}
+}
+function recuperarBorrador(){
+  try{
+    const d = JSON.parse(localStorage.getItem(CLAVE_LOCAL())||"null");
+    if(d && d.r){ S.respuestas=d.r; S.restante=d.restante||MINUTOS*60; S.inicio=d.inicio||0; }
+  }catch(e){}
+}
+function borrarBorrador(){ try{ localStorage.removeItem(CLAVE_LOCAL()); }catch(e){} }
+
+/* =====================================================================
+   CRONÓMETRO
+   ===================================================================== */
+$("btn-comenzar").addEventListener("click", ()=>{
+  pintar();
+  Object.keys(S.respuestas).forEach(n=>{
+    const j = S.respuestas[n];
+    const inp = document.querySelector('input[name="q'+n+'"][value="'+j+'"]');
+    if(inp){ inp.checked=true; document.querySelector('.opcion[data-q="'+n+'"][data-j="'+j+'"]').classList.add("marcada"); }
+  });
+  if(!S.inicio) S.inicio = Date.now();
+  actualizar();
+  ir("p-prueba");
+  arrancarReloj();
+});
+
+function arrancarReloj(){
+  const pintarReloj = ()=>{
+    const m = Math.floor(S.restante/60), s = S.restante%60;
+    const r = $("reloj");
+    r.textContent = String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+    r.classList.toggle("alerta", S.restante<=300);
+  };
+  pintarReloj();
+  S.timer = setInterval(()=>{
+    S.restante--;
+    pintarReloj();
+    if(S.restante%10===0) guardarBorrador();
+    if(S.restante<=0){ clearInterval(S.timer); enviar(true); }
+  },1000);
+}
+
+document.addEventListener("visibilitychange", ()=>{
+  if(document.hidden && $("p-prueba").classList.contains("activa") && !S.enviado) S.salidas++;
+});
+
+/* =====================================================================
+   CALIFICACIÓN Y ENVÍO
+   ===================================================================== */
+function calificar(){
+  const porSeccion = {};
+  let n = 0;
+  SECCIONES.forEach(sec=>{
+    let bruto = 0, maximo = 0;
+    sec.items.forEach(it=>{
+      n++;
+      const max = Math.max.apply(null, it.o.map(o=>o[1]));
+      maximo += max;
+      const j = S.respuestas[n];
+      if(j!==undefined) bruto += it.o[j][1];
+    });
+    porSeccion[sec.id] = { bruto, maximo, pct: Math.round(bruto/maximo*1000)/10, peso: sec.peso };
+  });
+  let total = 0;
+  Object.keys(porSeccion).forEach(k=>{ total += porSeccion[k].pct * porSeccion[k].peso / 100; });
+  total = Math.round(total*10)/10;
+  return { porSeccion, total };
+}
+
+$("btn-revisar").addEventListener("click", ()=>{
+  for(let i=1;i<=TOTAL;i++){
+    if(S.respuestas[i]===undefined){
+      const el = $("q"+i);
+      el.classList.add("pendiente");
+      el.scrollIntoView({behavior:"smooth",block:"center"});
+      return;
+    }
+  }
+  $("msg-envio").className="mensaje ok";
+  $("msg-envio").textContent="No hay preguntas pendientes.";
+});
+
+$("btn-enviar").addEventListener("click", ()=>{
+  const faltan = TOTAL - Object.keys(S.respuestas).length;
+  const texto = faltan>0
+    ? "Le faltan "+faltan+" pregunta(s). ¿Enviar de todos modos? No podrá volver atrás."
+    : "¿Enviar sus respuestas? No podrá modificarlas después.";
+  if(confirm(texto)) enviar(false);
+});
+
+function enviar(automatico){
+  if(S.enviado) return;
+  S.enviado = true;
+  clearInterval(S.timer);
+  const m = $("msg-envio");
+  $("btn-enviar").disabled = true;
+  m.className="mensaje"; m.textContent="Enviando…";
+
+  const cal = calificar();
+  const carga = {
+    usuario:S.usuario, token:S.token, nombre:S.nombre,
+    respuestas:S.respuestas,
+    puntajes:cal.porSeccion,
+    total:cal.total,
+    duracionSeg: Math.round((Date.now()-S.inicio)/1000),
+    tiempoAgotado: !!automatico,
+    salidasPantalla: S.salidas,
+    sinResponder: TOTAL - Object.keys(S.respuestas).length
+  };
+
+  api("guardar", carga).then(r=>{
+    if(r && r.ok){
+      borrarBorrador();
+      $("cierre-nombre").textContent = S.nombre;
+      $("folio").textContent = "Folio de registro: "+(r.folio||"—");
+      $("progreso").style.width="100%";
+      ir("p-cierre");
+    } else {
+      S.enviado=false; $("btn-enviar").disabled=false;
+      m.className="mensaje error";
+      m.textContent=(r&&r.error) ? r.error : "El envío no se completó. Intente nuevamente en un momento.";
+    }
+  }).catch(()=>{
+    S.enviado=false; $("btn-enviar").disabled=false;
+    m.className="mensaje error";
+    m.textContent="No se pudo enviar por falta de conexión. Sus respuestas están guardadas: verifique su internet y presione «Enviar» otra vez.";
+  });
+}
+
+window.addEventListener("beforeunload", e=>{
+  if($("p-prueba").classList.contains("activa") && !S.enviado){ e.preventDefault(); e.returnValue=""; }
+});
+</script>
+</body>
+</html>
