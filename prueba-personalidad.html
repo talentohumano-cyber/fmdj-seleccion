@@ -28,6 +28,7 @@ header.marca{padding:3.5rem 0 1.75rem;border-bottom:1px solid var(--linea)}
 .escudo b{font-family:var(--serif);font-size:1.05rem;color:var(--azul);font-weight:normal}
 .escudo span{font-size:.82rem;color:var(--gris)}
 h1{font-family:var(--serif);font-weight:normal;font-size:2.1rem;line-height:1.2;color:var(--azul);margin:1.5rem 0 .6rem}
+h1 em{display:block;font-style:normal;font-size:1.35rem;color:var(--vino);margin-top:.3rem}
 .lema{font-family:var(--serif);font-style:italic;color:var(--vino);font-size:1.05rem}
 .entradilla{color:var(--gris);max-width:34rem;margin-top:.9rem}
 
@@ -106,7 +107,7 @@ article.item.pendiente{border-left-color:var(--dorado);background:#FFFCF3}
     <b>Fundación Mariana de Jesús</b>
     <span>Dirección de Desarrollo Organizacional y Talento Humano</span>
   </div>
-  <h1>Inventario de rasgos<br>de personalidad laboral</h1>
+  <h1>Inventario de rasgos<br>de personalidad laboral<em id="titulo-cargo"></em></h1>
   <p class="lema">En todo amar y servir</p>
 </header>
 
@@ -143,7 +144,7 @@ article.item.pendiente{border-left-color:var(--dorado);background:#FFFCF3}
 <section class="pantalla" id="p-instrucciones">
   <div class="panel">
     <h2>Antes de comenzar</h2>
-    <p>Bienvenida, <b id="saludo-nombre">candidata</b>.</p>
+    <p>Bienvenid@, <b id="saludo-nombre">candidat@</b>.</p>
     <h3>Cómo responder</h3>
     <ul class="lista">
       <li>Son <b>65 afirmaciones</b>. Indique cuánto se parece cada una a su forma habitual de ser.</li>
@@ -184,7 +185,7 @@ article.item.pendiente{border-left-color:var(--dorado);background:#FFFCF3}
 
 <p class="pie">
   Fundación Mariana de Jesús &middot; Quito, Ecuador &middot; Instrumento de elaboración propia para uso interno en procesos de selección.
-  Estructura teórica de quince factores; ítems y puntuación desarrollados por la DDOTH. No constituye una prueba psicométrica estandarizada ni un diagnóstico clínico.
+  Estructura teórica de quince factores; ítems y puntuación desarrollados por la DDOTH. El perfil de referencia varía según el cargo evaluado. No constituye una prueba psicométrica estandarizada ni un diagnóstico clínico.
 </p>
 
 </div>
@@ -193,7 +194,7 @@ article.item.pendiente{border-left-color:var(--dorado);background:#FFFCF3}
 /* =====================================================================
    CONFIGURACIÓN
    ===================================================================== */
-const API = "https://script.google.com/macros/s/AKfycbyqUiXzSirLfUU7iPqfMRLbN4TRhH8Sez-VV7pjcB-5hINtao70B4NgTR9aD-BXQWw/exec";
+const API = "https://script.google.com/macros/s/AKfycbwqUpeb27orAJHyxgikUsZ2AFn_H72ps59L-fbmMOdtbdtbbWnmQ2N1JU__Q6nUdZMjTw/exec";
 const PRUEBA = "personalidad";
 
 /* =====================================================================
@@ -225,7 +226,7 @@ const ITEMS = [
 {f:"IM",k: 1,x:"Nunca he dicho una mentira, ni siquiera pequeña."},
 {f:"A",k: 1,x:"Disfruto ayudando a otras personas aunque no me lo pidan."},
 {f:"C",k: 1,x:"Los contratiempos del día no alteran mi ánimo."},
-{f:"E",k: 1,x:"Me siento cómoda dirigiendo a un grupo."},
+{f:"E",k: 1,x:"Me siento cómod@ dirigiendo a un grupo."},
 {f:"F",k: 1,x:"Me gusta que el ambiente de trabajo sea animado."},
 {f:"G",k: 1,x:"Llegar puntual es para mí una cuestión de principios."},
 {f:"H",k: 1,x:"Abordar a personas desconocidas no me representa dificultad."},
@@ -240,16 +241,16 @@ const ITEMS = [
 {f:"Q3",k: 1,x:"Mantengo mis archivos y mi escritorio en orden."},
 {f:"Q4",k: 1,x:"Me impaciento cuando las cosas avanzan lentamente."},
 {f:"IM",k: 1,x:"Jamás he llegado tarde a un compromiso."},
-{f:"A",k:-1,x:"Prefiero trabajar sola antes que en grupo."},
+{f:"A",k:-1,x:"Prefiero trabajar sol@ antes que en grupo."},
 {f:"C",k:-1,x:"Me altero con facilidad cuando cambian mis planes."},
 {f:"E",k:-1,x:"Prefiero que otra persona tome las decisiones difíciles."},
 {f:"F",k:-1,x:"Soy una persona más bien seria y reservada."},
 {f:"G",k:-1,x:"Si una regla me parece innecesaria, la paso por alto."},
-{f:"H",k:-1,x:"Me pongo nerviosa cuando debo presentarme ante personas de mayor jerarquía."},
+{f:"H",k:-1,x:"Me pongo nervios@ cuando debo presentarme ante personas de mayor jerarquía."},
 {f:"I",k:-1,x:"Tomo decisiones basándome en datos, no en sentimientos."},
 /* --- bloque 4 --- */
 {f:"L",k:-1,x:"Doy por hecho que las personas actúan de buena fe."},
-{f:"M",k:-1,x:"Estoy siempre atenta a lo que ocurre a mi alrededor."},
+{f:"M",k:-1,x:"Estoy siempre atent@ a lo que ocurre a mi alrededor."},
 {f:"N",k:-1,x:"Comparto con facilidad lo que pienso y siento."},
 {f:"O",k:-1,x:"Rara vez me siento culpable por algo que hice."},
 {f:"Q1",k:-1,x:"Prefiero los métodos que ya conozco y funcionan."},
@@ -265,12 +266,12 @@ const ITEMS = [
 {f:"G",k:-1,x:"Creo que los reglamentos deben aplicarse con flexibilidad, según convenga."},
 {f:"H",k:-1,x:"Evito las situaciones en las que soy el centro de atención."},
 {f:"I",k:-1,x:"Me considero una persona práctica más que sensible."},
-{f:"L",k:-1,x:"Rara vez sospecho de las intenciones de mis compañeras de trabajo."},
+{f:"L",k:-1,x:"Rara vez sospecho de las intenciones de mis compañer@s de trabajo."},
 {f:"M",k:-1,x:"Prefiero ocuparme de asuntos concretos y tangibles."},
 {f:"N",k:-1,x:"Las personas conocen rápidamente cómo soy."},
-{f:"O",k:-1,x:"Me siento segura de mí misma en la mayoría de situaciones."},
+{f:"O",k:-1,x:"Me siento segur@ de mí mism@ en la mayoría de situaciones."},
 {f:"Q1",k:-1,x:"Los cambios frecuentes me incomodan."},
-{f:"Q2",k:-1,x:"Me siento mejor cuando trabajo acompañada."},
+{f:"Q2",k:-1,x:"Me siento mejor cuando trabajo acompañad@."},
 {f:"Q3",k:-1,x:"Puedo trabajar bien en medio del desorden."},
 {f:"Q4",k:-1,x:"Rara vez siento presión, aunque haya mucho trabajo."},
 {f:"IM",k: 1,x:"Siempre cumplo todo lo que prometo, sin ninguna excepción."},
@@ -284,18 +285,6 @@ const ANCLAS = [
   ["4","De acuerdo"],
   ["5","Totalmente de acuerdo"]
 ];
-
-/* Perfil de referencia del cargo (sten esperado) y criticidad */
-const PERFIL_CARGO = {
-  A:[7,2], C:[8,2], E:[5.5,1], F:[5.5,1], G:[8,2], H:[6.5,1], I:[5.5,1],
-  L:[3.5,1], M:[3.5,1], N:[7,2], O:[4,1], Q1:[6,1], Q2:[4.5,1], Q3:[8,2], Q4:[3.5,1]
-};
-const NOMBRES = {
-  A:"Afabilidad", C:"Estabilidad emocional", E:"Dominancia", F:"Expresividad",
-  G:"Atención a normas", H:"Atrevimiento social", I:"Sensibilidad", L:"Vigilancia",
-  M:"Abstracción", N:"Discreción", O:"Aprensión", Q1:"Apertura al cambio",
-  Q2:"Autosuficiencia", Q3:"Perfeccionismo", Q4:"Tensión"
-};
 
 const TOTAL = ITEMS.length;
 const POR_BLOQUE = 13;
@@ -346,6 +335,7 @@ function entrar(){
     if(!r||!r.ok){m.className="mensaje error";m.textContent=(r&&r.error)?r.error:"No se pudo verificar el acceso. Revise sus datos e intente otra vez.";return}
     if(r.completada){m.className="mensaje error";m.textContent="Este cuestionario ya fue respondido con estas credenciales. Si cree que es un error, escriba a talentohumano@fmdj.org.ec.";return}
     S.usuario=u; S.nombre=r.nombre||u; S.token=r.token||"";
+    if(r.cargoNombre) $("titulo-cargo").textContent=r.cargoNombre;
     $("saludo-nombre").textContent=S.nombre.split(" ")[0];
     recuperar(); ir("p-instrucciones");
   }).catch(()=>{
@@ -425,73 +415,6 @@ function recuperar(){ try{const d=JSON.parse(localStorage.getItem(CLAVE_LOCAL())
 function borrar(){ try{localStorage.removeItem(CLAVE_LOCAL())}catch(e){} }
 
 /* =====================================================================
-   PUNTUACIÓN
-   Directo: valor tal cual. Inverso: 6 - valor.
-   Bruto por factor: 4 a 20. Sten provisional por transformación lineal
-   (media supuesta 12, desviación supuesta 2,8). NO son baremos normativos.
-   ===================================================================== */
-function puntuar(){
-  const bruto={}, cuenta={};
-  let im=0, imN=0, sumaTodo=0;
-  const frecuencia={1:0,2:0,3:0,4:0,5:0};
-
-  ITEMS.forEach((it,i)=>{
-    const v=parseInt(S.r[i],10);
-    if(isNaN(v))return;
-    frecuencia[v]++; sumaTodo+=v;
-    const p = it.k===1 ? v : 6-v;
-    if(it.f==="IM"){ im+=p; imN++; return; }
-    bruto[it.f]=(bruto[it.f]||0)+p;
-    cuenta[it.f]=(cuenta[it.f]||0)+1;
-  });
-
-  const sten={};
-  Object.keys(bruto).forEach(f=>{
-    const esperado = cuenta[f]*3;
-    const s = 5.5 + ((bruto[f]-esperado)/ (0.7*cuenta[f])) * 2;
-    sten[f] = Math.round(Math.min(10,Math.max(1,s))*10)/10;
-  });
-
-  const g = (lista)=>{
-    let t=0;
-    lista.forEach(([f,sig])=>{ t += sig===1 ? sten[f] : (11-sten[f]); });
-    return Math.round(t/lista.length*10)/10;
-  };
-  const globales = {
-    Extraversion: g([["A",1],["F",1],["H",1],["N",-1],["Q2",-1]]),
-    Ansiedad:     g([["C",-1],["L",1],["O",1],["Q4",1]]),
-    Dureza:       g([["A",-1],["I",-1],["M",-1],["Q1",-1]]),
-    Independencia:g([["E",1],["H",1],["L",1],["Q1",1]]),
-    Autocontrol:  g([["F",-1],["G",1],["M",-1],["Q3",1]])
-  };
-
-  /* Ajuste al perfil del cargo: 100 = coincidencia exacta */
-  let desv=0, pesos=0;
-  Object.keys(PERFIL_CARGO).forEach(f=>{
-    const [obj,w]=PERFIL_CARGO[f];
-    desv += w*Math.abs((sten[f]||5.5)-obj);
-    pesos += w;
-  });
-  const ajuste = Math.round(Math.max(0,100-(desv/(pesos*9))*100)*10)/10;
-
-  /* Controles de validez */
-  const imIndice = imN ? Math.round(im/imN*100)/100 : 0;          /* 1 a 5 */
-  const aquiescencia = Math.round(sumaTodo/TOTAL*100)/100;         /* media general */
-  const centrales = Math.round(frecuencia[3]/TOTAL*1000)/10;       /* % de puntos medios */
-  const extremos = Math.round((frecuencia[1]+frecuencia[5])/TOTAL*1000)/10;
-
-  const alertas=[];
-  if(imIndice>=4.0) alertas.push("Control de imagen elevado: revisar en entrevista.");
-  if(centrales>=40) alertas.push("Exceso de respuestas intermedias: perfil poco diferenciado.");
-  if(extremos>=70) alertas.push("Exceso de respuestas extremas.");
-  if(aquiescencia>=4.3||aquiescencia<=1.7) alertas.push("Posible sesgo de aceptación o rechazo sistemático.");
-
-  return { bruto, sten, globales, ajuste,
-           validez:{ imIndice, aquiescencia, centrales, extremos },
-           alertas, nombres:NOMBRES };
-}
-
-/* =====================================================================
    ENVÍO
    ===================================================================== */
 function enviar(){
@@ -501,11 +424,10 @@ function enviar(){
   $("btn-siguiente").disabled=true;
   m.className="mensaje"; m.textContent="Enviando…";
 
-  const p=puntuar();
   api("guardar",{
-    usuario:S.usuario, token:S.token, nombre:S.nombre,
-    respuestas:S.r, bruto:p.bruto, sten:p.sten, globales:p.globales,
-    ajusteCargo:p.ajuste, validez:p.validez, alertas:p.alertas,
+    usuario:S.usuario, token:S.token,
+    respuestas:S.r,
+    claves: ITEMS.map(it=>({f:it.f,k:it.k})),
     duracionSeg: Math.round((Date.now()-S.inicio)/1000)
   }).then(r=>{
     if(r&&r.ok){
