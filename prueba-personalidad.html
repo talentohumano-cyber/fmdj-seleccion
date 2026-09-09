@@ -147,8 +147,8 @@ article.item.pendiente{border-left-color:var(--dorado);background:#FFFCF3}
     <p>Bienvenid@, <b id="saludo-nombre">candidat@</b>.</p>
     <h3>Cómo responder</h3>
     <ul class="lista">
-      <li>Son <b>65 afirmaciones</b>. Indique cuánto se parece cada una a su forma habitual de ser.</li>
-      <li>No hay tiempo límite, pero lo esperable es entre <b>12 y 18 minutos</b>. Responda con rapidez.</li>
+      <li>Son <b><span id="ins-n">—</span> afirmaciones</b>. Indique cuánto se parece cada una a su forma habitual de ser.</li>
+      <li>No hay tiempo límite, pero lo esperable es entre <b>15 y 20 minutos</b>. Responda con rapidez.</li>
       <li>Conteste con su <b>primera impresión</b>. Pensarlo demasiado vuelve las respuestas menos exactas.</li>
       <li>Describa cómo es usted realmente, no cómo cree que debería ser. El cuestionario incluye controles que detectan respuestas dadas para causar buena impresión.</li>
       <li>No deje afirmaciones sin responder. Use la opción intermedia solo cuando de verdad no pueda decidirse.</li>
@@ -160,7 +160,7 @@ article.item.pendiente{border-left-color:var(--dorado);background:#FFFCF3}
 <!-- ============ CUESTIONARIO ============ -->
 <section class="pantalla" id="p-prueba">
   <div class="cinta">
-    <span>Respondidas <b><span id="contador">0</span> de 65</b></span>
+    <span>Respondidas <b><span id="contador">0</span> de <span id="total-n">—</span></b></span>
     <span id="etiqueta-bloque">Bloque 1 de 5</span>
   </div>
   <div id="contenedor"></div>
@@ -194,89 +194,8 @@ article.item.pendiente{border-left-color:var(--dorado);background:#FFFCF3}
 /* =====================================================================
    CONFIGURACIÓN
    ===================================================================== */
-const API = "https://script.google.com/macros/s/AKfycbwqUpeb27orAJHyxgikUsZ2AFn_H72ps59L-fbmMOdtbdtbbWnmQ2N1JU__Q6nUdZMjTw/exec";
+const API = "https://script.google.com/macros/s/AKfycbwhvMqjgVHdyHJJMUddAtG4myCJ1-o96E9AtfqOmh7OxQ2pdzx09uFh7wECSedhrefB/exec";
 const PRUEBA = "personalidad";
-
-/* =====================================================================
-   BANCO DE ÍTEMS
-   f = factor · k = 1 directo / -1 inverso
-   Factores: A afabilidad · C estabilidad · E dominancia · F expresividad
-   G atención a normas · H atrevimiento · I sensibilidad · L vigilancia
-   M abstracción · N discreción · O aprensión · Q1 apertura al cambio
-   Q2 autosuficiencia · Q3 perfeccionismo · Q4 tensión · IM control de imagen
-   ===================================================================== */
-const ITEMS = [
-/* --- ronda 1 --- */
-{f:"A",k: 1,x:"Me resulta fácil conversar con personas que acabo de conocer."},
-{f:"C",k: 1,x:"Mantengo la calma cuando algo sale mal a última hora."},
-{f:"E",k: 1,x:"Cuando algo no me parece correcto, lo digo aunque incomode."},
-{f:"F",k: 1,x:"Soy una persona alegre y con energía."},
-{f:"G",k: 1,x:"Cumplo los procedimientos aunque nadie los revise."},
-{f:"H",k: 1,x:"Me ofrezco a hablar en público cuando hace falta."},
-{f:"I",k: 1,x:"Me conmueven con facilidad las situaciones difíciles de otras personas."},
-{f:"L",k: 1,x:"Suelo preguntarme qué intención real tienen las personas."},
-{f:"M",k: 1,x:"Me distraigo pensando en ideas mientras hago tareas rutinarias."},
-{f:"N",k: 1,x:"Prefiero no contar asuntos personales en el trabajo."},
-{f:"O",k: 1,x:"Me preocupa haber cometido errores aunque nadie los haya notado."},
-{f:"Q1",k: 1,x:"Me entusiasma probar formas nuevas de hacer el trabajo."},
-{f:"Q2",k: 1,x:"Resuelvo los problemas por mi cuenta antes de pedir ayuda."},
-/* --- bloque 2 --- */
-{f:"Q3",k: 1,x:"Reviso mi trabajo más de una vez antes de entregarlo."},
-{f:"Q4",k: 1,x:"Termino el día con una sensación de tensión física."},
-{f:"IM",k: 1,x:"Nunca he dicho una mentira, ni siquiera pequeña."},
-{f:"A",k: 1,x:"Disfruto ayudando a otras personas aunque no me lo pidan."},
-{f:"C",k: 1,x:"Los contratiempos del día no alteran mi ánimo."},
-{f:"E",k: 1,x:"Me siento cómod@ dirigiendo a un grupo."},
-{f:"F",k: 1,x:"Me gusta que el ambiente de trabajo sea animado."},
-{f:"G",k: 1,x:"Llegar puntual es para mí una cuestión de principios."},
-{f:"H",k: 1,x:"Abordar a personas desconocidas no me representa dificultad."},
-{f:"I",k: 1,x:"Doy importancia a la estética y al cuidado de los detalles agradables."},
-{f:"L",k: 1,x:"Me cuesta confiar en alguien hasta que me demuestra que puedo hacerlo."},
-{f:"M",k: 1,x:"Me interesan más las ideas que los detalles prácticos."},
-{f:"N",k: 1,x:"Elijo con cuidado qué digo y a quién se lo digo."},
-/* --- bloque 3 --- */
-{f:"O",k: 1,x:"Suelo darle vueltas a cosas que hice mal."},
-{f:"Q1",k: 1,x:"Cuestiono los procedimientos cuando creo que pueden mejorarse."},
-{f:"Q2",k: 1,x:"Tomo mis decisiones sin necesitar la opinión de otras personas."},
-{f:"Q3",k: 1,x:"Mantengo mis archivos y mi escritorio en orden."},
-{f:"Q4",k: 1,x:"Me impaciento cuando las cosas avanzan lentamente."},
-{f:"IM",k: 1,x:"Jamás he llegado tarde a un compromiso."},
-{f:"A",k:-1,x:"Prefiero trabajar sol@ antes que en grupo."},
-{f:"C",k:-1,x:"Me altero con facilidad cuando cambian mis planes."},
-{f:"E",k:-1,x:"Prefiero que otra persona tome las decisiones difíciles."},
-{f:"F",k:-1,x:"Soy una persona más bien seria y reservada."},
-{f:"G",k:-1,x:"Si una regla me parece innecesaria, la paso por alto."},
-{f:"H",k:-1,x:"Me pongo nervios@ cuando debo presentarme ante personas de mayor jerarquía."},
-{f:"I",k:-1,x:"Tomo decisiones basándome en datos, no en sentimientos."},
-/* --- bloque 4 --- */
-{f:"L",k:-1,x:"Doy por hecho que las personas actúan de buena fe."},
-{f:"M",k:-1,x:"Estoy siempre atent@ a lo que ocurre a mi alrededor."},
-{f:"N",k:-1,x:"Comparto con facilidad lo que pienso y siento."},
-{f:"O",k:-1,x:"Rara vez me siento culpable por algo que hice."},
-{f:"Q1",k:-1,x:"Prefiero los métodos que ya conozco y funcionan."},
-{f:"Q2",k:-1,x:"Prefiero decidir en conjunto con el equipo."},
-{f:"Q3",k:-1,x:"Suelo dejar cosas para el último momento."},
-{f:"Q4",k:-1,x:"Me resulta fácil relajarme."},
-{f:"IM",k: 1,x:"Nunca me he molestado con nadie."},
-{f:"A",k:-1,x:"Me cuesta mostrar cercanía o afecto en el trabajo."},
-{f:"C",k:-1,x:"Después de una discusión me cuesta volver a concentrarme."},
-{f:"E",k:-1,x:"Suelo ceder para evitar discusiones."},
-{f:"F",k:-1,x:"Prefiero los ambientes tranquilos y silenciosos."},
-/* --- bloque 5 --- */
-{f:"G",k:-1,x:"Creo que los reglamentos deben aplicarse con flexibilidad, según convenga."},
-{f:"H",k:-1,x:"Evito las situaciones en las que soy el centro de atención."},
-{f:"I",k:-1,x:"Me considero una persona práctica más que sensible."},
-{f:"L",k:-1,x:"Rara vez sospecho de las intenciones de mis compañer@s de trabajo."},
-{f:"M",k:-1,x:"Prefiero ocuparme de asuntos concretos y tangibles."},
-{f:"N",k:-1,x:"Las personas conocen rápidamente cómo soy."},
-{f:"O",k:-1,x:"Me siento segur@ de mí mism@ en la mayoría de situaciones."},
-{f:"Q1",k:-1,x:"Los cambios frecuentes me incomodan."},
-{f:"Q2",k:-1,x:"Me siento mejor cuando trabajo acompañad@."},
-{f:"Q3",k:-1,x:"Puedo trabajar bien en medio del desorden."},
-{f:"Q4",k:-1,x:"Rara vez siento presión, aunque haya mucho trabajo."},
-{f:"IM",k: 1,x:"Siempre cumplo todo lo que prometo, sin ninguna excepción."},
-{f:"IM",k: 1,x:"Nunca he hablado mal de otra persona."}
-];
 
 const ANCLAS = [
   ["1","Totalmente en desacuerdo"],
@@ -286,11 +205,13 @@ const ANCLAS = [
   ["5","Totalmente de acuerdo"]
 ];
 
-const TOTAL = ITEMS.length;
-const POR_BLOQUE = 13;
-const BLOQUES = Math.ceil(TOTAL/POR_BLOQUE);
+const POR_BLOQUE = 10;
+let ITEMS = [];          /* llega del servidor: {n, x} */
+let TOTAL = 0, BLOQUES = 0;
 
 const S = { usuario:"", nombre:"", token:"", r:{}, bloque:0, inicio:0, enviado:false };
+const esc = t => String(t==null?"":t).replace(/[&<>"']/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const $ = id => document.getElementById(id);
 const CLAVE_LOCAL = () => "fmdj_"+PRUEBA+"_"+S.usuario;
 const ir = p => {
@@ -336,8 +257,22 @@ function entrar(){
     if(r.completada){m.className="mensaje error";m.textContent="Este cuestionario ya fue respondido con estas credenciales. Si cree que es un error, escriba a talentohumano@fmdj.org.ec.";return}
     S.usuario=u; S.nombre=r.nombre||u; S.token=r.token||"";
     if(r.cargoNombre) $("titulo-cargo").textContent=r.cargoNombre;
+    m.textContent="Cargando el cuestionario…";
+    return api("items",{usuario:u, token:S.token});
+  }).then(b=>{
+    if(!b) return;
+    $("btn-entrar").disabled=false;
+    if(!b.ok||!b.items||!b.items.length){
+      m.className="mensaje error";
+      m.textContent=(b&&b.error)?b.error:"No se pudo cargar el cuestionario. Escriba a talentohumano@fmdj.org.ec.";
+      return;
+    }
+    ITEMS=b.items; TOTAL=ITEMS.length; BLOQUES=Math.ceil(TOTAL/POR_BLOQUE);
+    $("total-n").textContent=TOTAL;
+    $("ins-n").textContent=TOTAL;
+    recuperar();
     $("saludo-nombre").textContent=S.nombre.split(" ")[0];
-    recuperar(); ir("p-instrucciones");
+    ir("p-instrucciones");
   }).catch(()=>{
     $("btn-entrar").disabled=false; m.className="mensaje error";
     m.textContent="No hay conexión con el servidor. Verifique su internet e intente nuevamente.";
@@ -356,12 +291,13 @@ function pintarBloque(){
   let html='<div class="bloque-titulo"><h2>Afirmaciones '+(desde+1)+' a '+hasta+'</h2>'+
            '<p>Indique cuánto se parece cada afirmación a su forma habitual de ser.</p></div>';
   for(let i=desde;i<hasta;i++){
-    html+='<article class="item" id="q'+i+'"><div class="enunciado"><span class="n">'+(i+1)+'</span><span>'+ITEMS[i].x+'</span></div>';
+    const it=ITEMS[i], q=it.n;
+    html+='<article class="item" id="q'+q+'"><div class="enunciado"><span class="n">'+(i+1)+'</span><span>'+esc(it.x)+'</span></div>';
     html+='<div class="escala">';
     ANCLAS.forEach(a=>{
-      const sel = S.r[i]==a[0] ? " marcada":"";
-      html+='<label class="grado'+sel+'" data-q="'+i+'" data-v="'+a[0]+'" data-v2="'+a[0]+'">'+
-            '<input type="radio" name="q'+i+'" value="'+a[0]+'"'+(S.r[i]==a[0]?" checked":"")+'>'+
+      const sel = S.r[q]==a[0] ? " marcada":"";
+      html+='<label class="grado'+sel+'" data-q="'+q+'" data-v="'+a[0]+'">'+
+            '<input type="radio" name="q'+q+'" value="'+a[0]+'"'+(S.r[q]==a[0]?" checked":"")+'>'+
             '<small>'+a[1]+'</small></label>';
     });
     html+='</div><div class="anclas"><span>En desacuerdo</span><span>De acuerdo</span></div></article>';
@@ -396,7 +332,8 @@ $("btn-atras").addEventListener("click",()=>{ if(S.bloque>0){S.bloque--;pintarBl
 $("btn-siguiente").addEventListener("click",()=>{
   const desde=S.bloque*POR_BLOQUE, hasta=Math.min(desde+POR_BLOQUE,TOTAL);
   let faltante=-1;
-  for(let i=desde;i<hasta;i++){ if(S.r[i]===undefined){ faltante=i; $("q"+i).classList.add("pendiente"); } }
+  for(let i=desde;i<hasta;i++){ const q=ITEMS[i].n;
+    if(S.r[q]===undefined){ if(faltante<0) faltante=q; $("q"+q).classList.add("pendiente"); } }
   if(faltante>=0){
     $("msg-envio").className="mensaje error";
     $("msg-envio").textContent="Quedan afirmaciones sin responder en este bloque; están señaladas.";
@@ -427,7 +364,6 @@ function enviar(){
   api("guardar",{
     usuario:S.usuario, token:S.token,
     respuestas:S.r,
-    claves: ITEMS.map(it=>({f:it.f,k:it.k})),
     duracionSeg: Math.round((Date.now()-S.inicio)/1000)
   }).then(r=>{
     if(r&&r.ok){
